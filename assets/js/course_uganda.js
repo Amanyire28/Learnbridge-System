@@ -155,6 +155,16 @@ function loadUnitContent(event, course_id, outline_id, module_number) {
         event.preventDefault();
     }
     
+    // Store current outline ID for download functionality
+    window.currentOutlineId = outline_id;
+    sessionStorage.setItem('currentOutlineId', outline_id);
+    
+    // Show download button
+    const downloadBtn = document.querySelector('.download-notes-btn');
+    if (downloadBtn) {
+        downloadBtn.style.display = 'inline-block';
+    }
+    
     // Update active nav item
     document.querySelectorAll('.unit-link').forEach(link => {
         link.classList.remove('active');
@@ -446,3 +456,48 @@ function loadDataBeforeRedirect() {
 function loadCourse(course_id) {
     window.location.href = `course.php?course_id=${course_id}`;
 }
+// Download notes for current unit
+function downloadNotes(outline_id, format = 'txt') {
+    if (!outline_id || outline_id <= 0) {
+        alert('Please select a unit first');
+        return;
+    }
+    
+    const downloadUrl = `includes/course/download-notes.php?outline_id=${outline_id}&format=${format}`;
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.click();
+}
+
+// Show download options modal
+function showDownloadOptions(outline_id) {
+    if (!outline_id || outline_id <= 0) {
+        alert('Please select a unit first');
+        return;
+    }
+    
+    // Create a simple dialog
+    const format = confirm('Download as PDF? (Cancel for TXT format)');
+    const selectedFormat = format ? 'pdf' : 'txt';
+    downloadNotes(outline_id, selectedFormat);
+}
+
+// Setup download button listener
+document.addEventListener('DOMContentLoaded', function() {
+    const downloadBtn = document.querySelector('.download-notes-btn');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const outlineId = sessionStorage.getItem('currentOutlineId') || 
+                              (window.currentOutlineId ? window.currentOutlineId : 0);
+            
+            if (!outlineId || outlineId <= 0) {
+                alert('Please select a unit first');
+                return;
+            }
+            
+            // Show options for PDF or TXT
+            showDownloadOptions(outlineId);
+        });
+    }
+});

@@ -23,7 +23,10 @@
         <div class='col d-none d-lg-block fs-6'>
             <h3 class="course-title"></h3>
         </div>
-        <div class='col d-flex justify-content-end'>
+        <div class='col d-flex justify-content-end align-items-center'>
+            <button class='btn btn-success btn-sm me-3 download-notes-btn' style='display: none;' title='Download notes as text file'>
+                <i class='fas fa-download'></i> Download Notes
+            </button>
             <nav aria-label='breadcrumb'>
                 <ol class='breadcrumb'>
                     <li class='breadcrumb-item'><a href='courses.php'>Courses</a></li>
