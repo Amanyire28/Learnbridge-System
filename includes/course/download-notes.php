@@ -53,73 +53,47 @@
     $timestamp = date('Y-m-d');
     
     if ($format === 'pdf') {
-        // Generate simple HTML that can be printed to PDF
-        generateHTMLForPDF($unit_title, $notes_result, $filename, $timestamp);
+        generatePDF($unit_title, $notes_result, $filename, $timestamp);
     } else {
         // Plain text download
         generateTXT($unit_title, $notes_result, $filename, $timestamp);
     }
     
-    function generateHTMLForPDF($unit_title, $notes_result, $filename, $timestamp) {
-        $html = '<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>' . htmlspecialchars($unit_title) . '</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            line-height: 1.6;
-            color: #333;
-        }
-        h1 {
-            color: #111161;
-            border-bottom: 3px solid #111161;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-        h2 {
-            color: #2a3d8c;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            border-left: 5px solid #2a3d8c;
-            padding-left: 15px;
-        }
-        p {
-            text-align: justify;
-            margin-bottom: 15px;
-        }
-        .section {
-            page-break-inside: avoid;
-            margin-bottom: 25px;
-        }
-        @media print {
-            body { margin: 0; }
-            h1, h2 { page-break-after: avoid; }
-            .section { page-break-inside: avoid; }
-        }
-    </style>
-</head>
-<body>
-    <h1>' . htmlspecialchars($unit_title) . '</h1>
-    <p><em>Generated on: ' . date('F d, Y') . '</em></p>';
+    function generatePDF($unit_title, $notes_result, $filename, $timestamp) {
+        // Create a simple PDF
+        $pdf_content = "%PDF-1.4\n";
+        $pdf_content .= "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n";
+        $pdf_content .= "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n";
+        $pdf_content .= "3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>\nendobj\n";
+        
+        // Build content stream
+        $stream = "BT\n/F1 16 Tf\n50 750 Td\n(" . addslashes($unit_title) . ") Tj\n/F1 10 Tf\n0 -20 Td\n";
         
         while ($note = mysqli_fetch_assoc($notes_result)) {
-            $html .= '<div class="section">';
-            $html .= '<h2>' . htmlspecialchars($note['section_title']) . '</h2>';
-            $html .= '<p>' . nl2br(htmlspecialchars($note['section_content'])) . '</p>';
-            $html .= '</div>';
+            $stream .= "/F1 12 Tf\n(" . addslashes($note['section_title']) . ") Tj\n";
+            $stream .= "/F1 10 Tf\n0 -15 Td\n";
+            // Truncate long content
+            $content = substr($note['section_content'], 0, 500);
+            $stream .= "(" . addslashes($content) . ") Tj\n0 -10 Td\n";
         }
         
-        $html .= '
-</body>
-</html>';
+        $stream .= "ET\n";
         
-        header('Content-Type: application/pdf; charset=utf-8');
+        $pdf_content .= "4 0 obj\n<< /Length " . strlen($stream) . " >>\nstream\n" . $stream . "endstream\nendobj\n";
+        $pdf_content .= "5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n";
+        $pdf_content .= "xref\n0 6\n";
+        $pdf_content .= "0000000000 65535 f\n";
+        $pdf_content .= "0000000009 00000 n\n";
+        $pdf_content .= "0000000058 00000 n\n";
+        $pdf_content .= "0000000115 00000 n\n";
+        $pdf_content .= "0000000267 00000 n\n";
+        $pdf_content .= "0000000400 00000 n\n";
+        $pdf_content .= "trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n500\n%%EOF\n";
+        
+        header('Content-Type: application/pdf');
         header('Content-Disposition: attachment; filename="' . $filename . '_' . $timestamp . '.pdf"');
-        header('Content-Length: ' . strlen($html));
-        echo $html;
+        header('Content-Length: ' . strlen($pdf_content));
+        echo $pdf_content;
     }
     
     function generateTXT($unit_title, $notes_result, $filename, $timestamp) {
@@ -136,75 +110,6 @@
         header('Content-Type: text/plain; charset=utf-8');
         header('Content-Disposition: attachment; filename="' . $filename . '_' . $timestamp . '.txt"');
         echo $content;
-    }
-    
-    function generatePDF($unit_title, $notes_result, $filename, $timestamp) {
-        // Generate clean HTML that can be saved as PDF by browser
-        $html = '<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>' . htmlspecialchars($unit_title) . '</title>
-    <style>
-        body {
-            font-family: "Arial", sans-serif;
-            margin: 40px;
-            line-height: 1.8;
-            color: #333;
-            background: white;
-        }
-        h1 {
-            color: #111161;
-            border-bottom: 3px solid #111161;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
-        .date {
-            color: #666;
-            font-style: italic;
-            margin-bottom: 30px;
-            font-size: 12px;
-        }
-        h2 {
-            color: #2a3d8c;
-            margin-top: 25px;
-            margin-bottom: 12px;
-            border-left: 5px solid #ffc107;
-            padding-left: 15px;
-            font-size: 18px;
-        }
-        p {
-            text-align: justify;
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
-        .section {
-            margin-bottom: 20px;
-            page-break-inside: avoid;
-        }
-        @page {
-            margin: 40px;
-        }
-    </style>
-</head>
-<body>
-    <h1>' . htmlspecialchars($unit_title) . '</h1>
-    <div class="date">Generated on: ' . date('F d, Y \a\t H:i') . '</div>';
-        
-        while ($note = mysqli_fetch_assoc($notes_result)) {
-            $html .= '<div class="section">';
-            $html .= '<h2>' . htmlspecialchars($note['section_title']) . '</h2>';
-            $html .= '<p>' . str_replace("\n", "</p><p>", htmlspecialchars($note['section_content'])) . '</p>';
-            $html .= '</div>';
-        }
-        
-        $html .= '</body></html>';
-        
-        // Output as HTML (browser can print/save to PDF)
-        header('Content-Type: text/html; charset=utf-8');
-        header('Content-Disposition: inline; filename="' . $filename . '_' . $timestamp . '.pdf.html"');
-        echo $html;
     }
     
     function sanitize($input) {
