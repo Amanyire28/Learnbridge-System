@@ -1,0 +1,485 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: ghostwhite;
+}
+
+
+.secondary{
+    background-color:rgb(17, 17, 97);
+}
+
+.secondary-text{
+    color: #111161;
+}
+
+
+.lePeek span { animation-name: lePeek }
+@keyframes lePeek {
+    25% {  transform: rotateX(30deg) translateY(10px) rotate(-13deg); }
+    50% { transform: translateY(-22px) rotate(3deg) scale(1.1);  }
+}
+
+#reasons-section img{
+    height: 30px;
+}
+
+.card-height{
+    height: 20rem;
+}
+
+.card-img-height{
+    height: 10rem;
+}
+
+#course-breadcrumb li{
+    color: #111161;
+}
+
+.reviews-card-height{
+    height: 23rem;
+}
+
+#suggestions {
+    position: absolute;
+    left: 13rem;
+    top: 4rem;
+}
+
+.secondary-item :hover{
+    color: yellow;
+}
+
+.form-control, .form-select{
+    border-width: 3px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+  }
+
+@media screen and (min-width: 992px){
+    #dropdowncourses{
+        position: relative;
+        right: 45px;
+    }
+}
+
+.nav-pills .nav-link {
+    background-color: #f1f1f1; /* Light gray background */
+    color: #333; /* Dark text color */
+  }
+
+.nav-pills .nav-link.active {
+    background-color: #111161;; /* Blue background for active tab */
+    color: white; /* White text for active tab */
+}
+
+
+.nav-pills .nav-link.disabled {
+    background-color: #ccc; /* Gray background for disabled tab */
+    color: #777; /* Lighter text color for disabled tab */
+}
+
+/* Limit courses dropdown to show 5 items with scrolling */
+#courses-dropdown {
+    max-height: 250px; /* Approximately 5 items (each item ~50px) */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Style the scrollbar for better appearance */
+#courses-dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+#courses-dropdown::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+#courses-dropdown::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+#courses-dropdown::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+
+/* ============================================ */
+/* UNITS MANAGEMENT STYLES */
+/* ============================================ */
+
+/* Add Unit Form Styling */
+#addUnitForm {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#addUnitForm .form-label {
+    font-weight: 600;
+    color: #111161;
+    margin-bottom: 8px;
+}
+
+#addUnitForm .form-control,
+#addUnitForm .form-select {
+    border: 2px solid #111161;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#addUnitForm .form-control:focus,
+#addUnitForm .form-select:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
+}
+
+#addUnitForm .btn-success {
+    background-color: #28a745;
+    border: none;
+    padding: 10px 30px;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+#addUnitForm .btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Units Table Styling */
+.table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.table thead {
+    background-color: #111161;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.table th {
+    padding: 12px 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 0.85rem;
+}
+
+.table td {
+    padding: 8px 10px;
+    border: 1px solid #eee;
+    vertical-align: middle;
+    font-size: 0.85rem;
+}
+
+.table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.table .badge {
+    padding: 5px 10px;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.table code {
+    background-color: #f0f0f0;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.85em;
+    color: #d9534f;
+}
+
+/* Action Buttons */
+.table .btn-sm {
+    padding: 5px 10px;
+    font-size: 0.8em;
+    margin: 2px;
+    transition: all 0.3s ease;
+}
+
+.table .btn-warning {
+    background-color: #ffc107;
+    color: #111161;
+    border: none;
+}
+
+.table .btn-warning:hover {
+    background-color: #ffb800;
+    transform: scale(1.05);
+}
+
+.table .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.table .btn-danger:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+/* Accordion Styling */
+.accordion-button {
+    background-color: #f8f9fa;
+    color: #111161;
+    font-weight: 600;
+    border: 2px solid #e9ecef;
+    font-size: 0.95rem;
+    padding: 12px 15px;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #e7e7e7;
+    color: #111161;
+}
+
+.accordion-button:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
+}
+
+.accordion-item {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.accordion-body {
+    padding: 15px;
+    background-color: #fafafa;
+    font-size: 0.9rem;
+}
+
+.accordion-body .badge {
+    margin-left: 10px;
+}
+
+.accordion-body p.text-muted {
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+/* Modal Styling */
+.modal-header {
+    background-color: #111161;
+    color: white;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.modal .form-label {
+    font-weight: 600;
+    color: #111161;
+}
+
+.modal .form-control {
+    border: 2px solid #111161;
+    border-radius: 5px;
+}
+
+.modal .form-control:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
+}
+
+.modal .btn-primary {
+    background-color: #111161;
+    border: none;
+    padding: 8px 20px;
+}
+
+.modal .btn-primary:hover {
+    background-color: #0d0d44;
+}
+
+/* Card Styling */
+.card {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    border-bottom: 2px solid #e9ecef;
+    padding: 15px;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 12px;
+    font-size: 0.9rem;
+}
+
+/* Card buttons styling */
+.card-body .d-flex {
+    gap: 0.5rem !important;
+}
+
+.card-body .btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+.card-body .btn-sm {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+}
+
+/* Stats Display */
+.card-text {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #111161;
+    margin: 5px 0;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #addUnitForm {
+        padding: 15px;
+    }
+    
+    .table {
+        font-size: 0.9em;
+    }
+    
+    .table th,
+    .table td {
+        padding: 8px 5px;
+    }
+    
+    .table .btn-sm {
+        padding: 3px 8px;
+        font-size: 0.7em;
+        margin: 1px;
+    }
+    
+    .accordion-button {
+        font-size: 1em;
+    }
+}
+
+/* Colored Placeholder Cards */
+.course-placeholder {
+    height: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: white;
+    font-size: 6rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.placeholder-english {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.placeholder-math {
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+}
+
+.placeholder-science {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+}
+
+.placeholder-social {
+    background: linear-gradient(135deg, #a0522d 0%, #d2691e 100%);
+}
+
+/* Admin Dashboard Navigation Styles */
+.admin-nav {
+    background-color: transparent !important;
+}
+
+.admin-nav .nav-link {
+    background-color: transparent !important;
+    color: white !important;
+    padding: 0.5rem 1rem !important;
+    border: none !important;
+}
+
+.admin-nav .nav-item {
+    background-color: transparent !important;
+}
+
+.admin-nav .nav-item .nav-link {
+    background-color: transparent !important;
+    color: white !important;
+    border: none !important;
+}
+
+.admin-nav .nav-link:focus,
+.admin-nav .nav-link:active,
+.admin-nav .nav-link.active {
+    background-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+    color: white !important;
+    border: none !important;
+}
+
+.admin-nav .nav-link:hover {
+    background-color: transparent !important;
+    color: white !important;
+    border: none !important;
+}
+
+.admin-nav .nav-item a {
+    background-color: transparent !important;
+    color: white !important;
+    border: none !important;
+}
+
+/* Hide footer on admin page */
+body > footer {
+    display: none !important;
+}
+
+/* Course tabs and cards spacing - SPECIFIC to courses page */
+#pills-tab {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+}
+
+#pills-tabContent {
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-top: 0 !important;
+}
