@@ -4,7 +4,7 @@
  * Tracks downloads and serves files with low-bandwidth support
  */
 
-include('../../connect.php');
+include('../connect.php');
 
 // Only start session if not already active
 if (session_status() === PHP_SESSION_NONE) {
