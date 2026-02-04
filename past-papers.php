@@ -40,10 +40,6 @@ $search_query = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET[
 // Build query for past papers
 $where_clause = "WHERE pp.is_active = 1";
 
-if ($user_role !== 'Admin') {
-    $where_clause .= " AND cc.user_id = $user_id";
-}
-
 if ($selected_course > 0) {
     $where_clause .= " AND pp.course_id = $selected_course";
 }
@@ -66,7 +62,7 @@ $papers_query = "
            (SELECT COUNT(*) FROM past_paper_attempts WHERE paper_id = pp.id) as total_downloads
     FROM past_papers pp
     JOIN courses c ON pp.course_id = c.course_id
-    " . ($user_role !== 'Admin' ? "JOIN completed_courses cc ON c.course_id = cc.course_id" : "") . "
+    " . ($user_role !== 'Admin' ? "JOIN completed_courses cc ON c.course_id = cc.course_id AND cc.user_id = $user_id" : "") . "
     $where_clause
     ORDER BY pp.year DESC, pp.term DESC
 ";
