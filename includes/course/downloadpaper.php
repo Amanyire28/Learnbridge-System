@@ -29,24 +29,14 @@ if ($paper_id <= 0) {
 // Check if user has access to this paper
 $user_role = $_SESSION['role'] ?? '';
 
-if ($user_role === 'Admin') {
-    // Admins can download any paper
-    $access_query = "SELECT * FROM past_papers WHERE id = $paper_id";
-} else {
-    // Students can only download papers from their enrolled courses
-    $access_query = "
-        SELECT pp.* FROM past_papers pp
-        JOIN courses c ON pp.course_id = c.course_id
-        JOIN completed_courses cc ON c.course_id = cc.course_id
-        WHERE pp.id = $paper_id AND cc.user_id = $user_id
-    ";
-}
+// Allow all users to download any active past paper
+$access_query = "SELECT * FROM past_papers WHERE id = $paper_id AND is_active = 1";
 
 $result = mysqli_query($conn, $access_query);
 
 if (!$result || mysqli_num_rows($result) == 0) {
-    http_response_code(403);
-    die("Access denied");
+    http_response_code(404);
+    die("Paper not found or inactive");
 }
 
 $paper = mysqli_fetch_assoc($result);
