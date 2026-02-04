@@ -42,11 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $subject = mysqli_real_escape_string($conn, $_POST['subject'] ?? '');
         $description = mysqli_real_escape_string($conn, $_POST['description'] ?? '');
         
-        // Check if course exists
+        // Check if subject exists
         $check_course = mysqli_query($conn, "SELECT course_id FROM courses WHERE course_id = $course_id");
         if (mysqli_num_rows($check_course) == 0) {
-            $_SESSION['error'] = "Invalid course selected";
-            echo json_encode(['success' => false, 'message' => 'Invalid course']);
+            $_SESSION['error'] = "Invalid subject selected";
+            echo json_encode(['success' => false, 'message' => 'Invalid subject']);
             exit();
         }
         
@@ -156,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
 }
 
-// Fetch courses for dropdown
+// Fetch subjects for dropdown
 $courses = mysqli_query($conn, "SELECT course_id, course_title FROM courses ORDER BY course_title");
 
 // Fetch all past papers
@@ -198,9 +198,9 @@ $past_papers = mysqli_query($conn, "
             <form id="uploadForm" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="course_id" class="form-label">Course *</label>
+                        <label for="course_id" class="form-label">Subject *</label>
                         <select class="form-select" id="course_id" name="course_id" required>
-                            <option value="">Select a course</option>
+                            <option value="">Select a subject</option>
                             <?php while ($course = mysqli_fetch_assoc($courses)): ?>
                                 <option value="<?php echo $course['course_id']; ?>">
                                     <?php echo htmlspecialchars($course['course_title']); ?>

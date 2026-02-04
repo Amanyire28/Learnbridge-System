@@ -16,7 +16,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $user_role = $_SESSION['role'] ?? '';
 
-// Get all courses the user is enrolled in or admin can see all
+// Get all subjects the user is enrolled in or admin can see all
 if ($user_role === 'Admin') {
     $courses_query = "SELECT DISTINCT course_id, course_title FROM courses ORDER BY course_title";
 } else {
@@ -185,9 +185,9 @@ $terms = mysqli_query($conn, $terms_query);
             
             <form method="GET" class="row g-3">
                 <div class="col-md-3">
-                    <label for="course" class="form-label">Course</label>
+                    <label for="course" class="form-label">Subject</label>
                     <select class="form-select" name="course" id="course">
-                        <option value="">All Courses</option>
+                        <option value="">All Subjects</option>
                         <?php 
                         mysqli_data_seek($courses, 0);
                         while ($course = mysqli_fetch_assoc($courses)): 
