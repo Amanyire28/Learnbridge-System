@@ -30,6 +30,12 @@
         case 'messages':
           url = 'includes/admin/loadmessages.php';
           break;
+        case 'pastpapers':
+          url = 'includes/admin/uploadpastpaper.php';
+          break;
+        case 'statistics':
+          url = 'includes/admin/pastpapersstatistics.php';
+          break;
       }
       
       if (url) {
@@ -89,6 +95,18 @@
       loadAdminSection('messages');
       setActiveNav('messages');
     });
+    
+    $(document).on("click", ".admin-nav .pastpapers a", function(e) {
+      e.preventDefault();
+      loadAdminSection('pastpapers');
+      setActiveNav('pastpapers');
+    });
+    
+    $(document).on("click", ".admin-nav .statistics a", function(e) {
+      e.preventDefault();
+      loadAdminSection('statistics');
+      setActiveNav('statistics');
+    });
   });
 </script>
 HTML;
@@ -107,19 +125,39 @@ HTML;
     <div class="col-1 h-100 shadow d-none d-lg-block p-0 d-flex flex-column align-items-center" style="background: linear-gradient(135deg, #111161 0%, #2a3d8c 100%);">
       <ul class="nav flex-column my-3 fs-5 admin-nav w-100 text-center">
         <li class="nav-item d-flex justify-content-center dashboard">
-          <a  class="nav-link active text-white" style="border-radius: 8px;" aria-current="page" href="#">Dashboard</a>
+          <a class="nav-link active text-white" style="border-radius: 8px;" aria-current="page" href="#" title="Dashboard">
+            <i class="fas fa-chart-line"></i> Dashboard
+          </a>
         </li>
         <li class="nav-item d-flex justify-content-center users">
-          <a class="nav-link text-white" style="border-radius: 8px;" href="#">Users</a>
+          <a class="nav-link text-white" style="border-radius: 8px;" href="#" title="Users">
+            <i class="fas fa-users"></i> Users
+          </a>
         </li>
         <li class="nav-item d-flex justify-content-center courses">
-          <a class="nav-link text-white" style="border-radius: 8px;" href="#">Courses</a>
+          <a class="nav-link text-white" style="border-radius: 8px;" href="#" title="Courses">
+            <i class="fas fa-book"></i> Courses
+          </a>
         </li>
         <li class="nav-item d-flex justify-content-center units">
-          <a class="nav-link text-white" style="border-radius: 8px;" href="#">Units</a>
+          <a class="nav-link text-white" style="border-radius: 8px;" href="#" title="Units">
+            <i class="fas fa-layer-group"></i> Units
+          </a>
         </li>
         <li class="nav-item d-flex justify-content-center messages">
-          <a class="nav-link text-white" style="border-radius: 8px;" href="#">Messages</a>
+          <a class="nav-link text-white" style="border-radius: 8px;" href="#" title="Messages">
+            <i class="fas fa-envelope"></i> Messages
+          </a>
+        </li>
+        <li class="nav-item d-flex justify-content-center pastpapers">
+          <a class="nav-link text-white" style="border-radius: 8px;" href="#" title="Past Papers">
+            <i class="fas fa-file-pdf"></i> Papers
+          </a>
+        </li>
+        <li class="nav-item d-flex justify-content-center statistics">
+          <a class="nav-link text-white" style="border-radius: 8px;" href="#" title="Statistics">
+            <i class="fas fa-chart-bar"></i> Stats
+          </a>
         </li>
       </ul>
 
@@ -141,19 +179,39 @@ HTML;
     <div class='offcanvas-body'>
     <ul class="nav flex-column my-3 fs-4 admin-nav">
         <li class="nav-item d-flex justify-content-center dashboard">
-          <a class="nav-link active text-dark" aria-current="page" href="#">Dashboard</a>
+          <a class="nav-link active text-dark" aria-current="page" href="#">
+            <i class="fas fa-chart-line"></i> Dashboard
+          </a>
         </li>
         <li class="nav-item d-flex justify-content-center users">
-          <a class="nav-link text-dark" href="#">Users</a>
+          <a class="nav-link text-dark" href="#">
+            <i class="fas fa-users"></i> Users
+          </a>
         </li>
         <li class="nav-item d-flex justify-content-center courses">
-          <a class="nav-link text-dark" href="#">Courses</a>
+          <a class="nav-link text-dark" href="#">
+            <i class="fas fa-book"></i> Courses
+          </a>
         </li>
         <li class="nav-item d-flex justify-content-center units">
-          <a class="nav-link text-dark" href="#">Units</a>
+          <a class="nav-link text-dark" href="#">
+            <i class="fas fa-layer-group"></i> Units
+          </a>
         </li>
         <li class="nav-item d-flex justify-content-center messages">
-          <a class="nav-link text-dark" href="#">Messages</a>
+          <a class="nav-link text-dark" href="#">
+            <i class="fas fa-envelope"></i> Messages
+          </a>
+        </li>
+        <li class="nav-item d-flex justify-content-center pastpapers">
+          <a class="nav-link text-dark" href="#">
+            <i class="fas fa-file-pdf"></i> Past Papers
+          </a>
+        </li>
+        <li class="nav-item d-flex justify-content-center statistics">
+          <a class="nav-link text-dark" href="#">
+            <i class="fas fa-chart-bar"></i> Statistics
+          </a>
         </li>
       </ul>
     </div>

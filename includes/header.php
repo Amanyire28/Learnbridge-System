@@ -12,6 +12,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/gh/yesiamrocks/cssanimation.io@1.0.3/cssanimation.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/custom.css">
+    
+    <!-- Offline & Low-Bandwidth Support -->
+    <script src="assets/js/low-bandwidth-manager.js" defer></script>
+    <script src="assets/js/low-bandwidth-ui.js" defer></script>
+    <script>
+        // Register Service Worker for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => {
+                        console.log('[ServiceWorker] Registered successfully:', reg);
+                    })
+                    .catch(err => {
+                        console.log('[ServiceWorker] Registration failed:', err);
+                    });
+            });
+        }
+        
+        // Show offline message when connection is lost
+        window.addEventListener('offline', () => {
+            console.log('[Offline] Connection lost');
+            // Don't redirect immediately - let Service Worker handle it
+            // Only show notification in navbar
+            const notif = document.createElement('div');
+            notif.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b6b;color:white;padding:10px;text-align:center;z-index:99999;font-weight:bold;';
+            notif.textContent = '⚠ You are offline - Limited functionality available';
+            document.body.insertBefore(notif, document.body.firstChild);
+        });
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark secondary">
@@ -65,6 +94,16 @@
                            
                         </ul>
                   </li>
+              <li class="nav-item">
+                <?php
+                  if(isset($_SESSION["user_id"])){
+                    echo '<a class="nav-link text-white" href="past-papers.php">📚 Past Papers</a>';
+                  }
+                  else{
+                    echo '<a class="nav-link text-white" data-bs-toggle="modal" data-bs-target="#loginModal">📚 Past Papers</a>';
+                  }
+                ?>
+              </li>
                 
   
              
