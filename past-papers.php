@@ -16,18 +16,14 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $user_role = $_SESSION['role'] ?? '';
 
-// Get all subjects the user is enrolled in or admin can see all
-if ($user_role === 'Admin') {
-    $courses_query = "SELECT DISTINCT course_id, course_title FROM courses ORDER BY course_title";
-} else {
-    $courses_query = "
-        SELECT DISTINCT c.course_id, c.course_title 
-        FROM courses c
-        JOIN completed_courses cc ON c.course_id = cc.course_id
-        WHERE cc.user_id = $user_id
-        ORDER BY c.course_title
-    ";
-}
+// Get all subjects that have past papers (show all subjects in filter, not just enrolled)
+$courses_query = "
+    SELECT DISTINCT c.course_id, c.course_title 
+    FROM courses c
+    JOIN past_papers pp ON c.course_id = pp.course_id
+    WHERE pp.is_active = 1
+    ORDER BY c.course_title
+";
 
 $courses = mysqli_query($conn, $courses_query);
 
@@ -62,7 +58,6 @@ $papers_query = "
            (SELECT COUNT(*) FROM past_paper_attempts WHERE paper_id = pp.id) as total_downloads
     FROM past_papers pp
     JOIN courses c ON pp.course_id = c.course_id
-    " . ($user_role !== 'Admin' ? "JOIN completed_courses cc ON c.course_id = cc.course_id AND cc.user_id = $user_id" : "") . "
     $where_clause
     ORDER BY pp.year DESC, pp.term DESC
 ";
