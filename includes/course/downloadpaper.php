@@ -56,13 +56,15 @@ $file_path = ($type === 'solution' && $paper['solution_file_path'])
     ? $paper['solution_file_path'] 
     : $paper['paper_file_path'];
 
-// Get absolute path
-$abs_file_path = "../../" . $file_path;
+// Get absolute path - stored paths are relative to document root
+// __DIR__ = C:\xampp\htdocs\learnbridge\includes\course
+// Go up 2 levels to reach document root: C:\xampp\htdocs\learnbridge
+$abs_file_path = realpath(__DIR__ . '/../../') . '/' . str_replace('\\', '/', $file_path);
 
 // Check if file exists
 if (!file_exists($abs_file_path)) {
     http_response_code(404);
-    die("File not found");
+    die("File not found: " . $abs_file_path);
 }
 
 // Log download attempt
@@ -80,7 +82,21 @@ mysqli_query($conn, $log_query);
 // Get file info
 $file_size = filesize($abs_file_path);
 $file_name = basename($abs_file_path);
-$mime_type = mime_content_type($abs_file_path);
+
+// Determine MIME type (mime_content_type is deprecated)
+$file_ext = strtolower(pathinfo($abs_file_path, PATHINFO_EXTENSION));
+$mime_types = [
+    'pdf' => 'application/pdf',
+    'doc' => 'application/msword',
+    'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'xls' => 'application/vnd.ms-excel',
+    'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'txt' => 'text/plain',
+    'jpg' => 'image/jpeg',
+    'jpeg' => 'image/jpeg',
+    'png' => 'image/png',
+];
+$mime_type = $mime_types[$file_ext] ?? 'application/octet-stream';
 
 // For low-bandwidth mode, compress the file if possible
 $low_bandwidth = isset($_GET['compress']) && $_GET['compress'] == '1';
